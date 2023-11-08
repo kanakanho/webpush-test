@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Make QRcode</title>
+    </head>
+    <body>
+        <div id="input">
+            <input type="text" id="inputText" />
+            <button onclick="inputClick()">QRコードを生成</button>
+        </div>
+        <div id="save" onclick="saveClick()"></div>
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.js"></script>
+    <script>
+        let qr = new QRious();
+
+        document.getElementById("input").addEventListener("click", function () {
+            const inputText = document.getElementById("inputText");
+            const query = inputText.value;
+            qr.set({
+                background: "#FFF", //背景色
+                backgroundAlpha: 0.8, // 背景の透過率
+                foreground: "#6bb6ff", //QRコード自体の色
+                foregroundAlpha: 1.0, //QRコード自体の透過率
+                level: "L", // QRコードの誤り訂正レベル
+                size: 500, // QRコードのサイズ
+                value: query, // QRコードの中身
+            });
+            const canvas = qr.canvas;
+            const save = document.getElementById("save");
+            save.innerHTML = "";
+            save.appendChild(canvas);
+        });
+
+        document.getElementById("save").addEventListener("click", function () {
+            const a = document.createElement("a");
+            a.href = qr.toDataURL("image/png");
+            a.download = "qrcode.png";
+            a.click();
+        });
+    </script>
+</html>
