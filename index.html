@@ -21,7 +21,7 @@
         </style>
     </head>
     <body>
-        <button id="btn" onclick="setNoti()">通知を送る</button>
+        <img src="img/demo.png" alt="demo" onclick="setNoti()"/>
     </body>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
@@ -73,9 +73,18 @@
                             console.log("currentToken:");
                             console.log(currentToken);
                             // pタグを作って、そこにトークンを表示する
-                            const p = document.createElement("p");
-                            p.textContent = currentToken;
-                            document.body.appendChild(p);
+                            // const p = document.createElement("p");
+                            // p.textContent = currentToken;
+                            // document.body.appendChild(p);
+                            // クリップボードにコピーする
+                            navigator.clipboard.writeText(currentToken).then(
+                                function () {
+                                    console.log("Async: Copying to clipboard was successful!");
+                                },
+                                function (err) {
+                                    console.error("Async: Could not copy text: ", err);
+                                }
+                            );
                         } else {
                             // トークン取得失敗
                             console.log("No Instance ID token available. Request permission to generate one.");
