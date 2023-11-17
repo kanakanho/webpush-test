@@ -6,7 +6,9 @@
         <link rel="shortcut icon" href="image1.png" />
         <link rel="manifest" href="manifest.json" />
     </head>
-    <body></body>
+    <body>
+        <button id="btn" onclick="setNoti()">通知を送る</button>
+    </body>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
     <!-- FCMの読込 -->
@@ -41,31 +43,35 @@
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
-
+        console.log(firebase);
         const messaging = firebase.messaging();
-        Notification.requestPermission().then((permission) => {
-            if (permission === "granted") {
-                // 通知を許可した場合
-                console.log("Notification permission granted.");
+        console.log(messaging);
 
-                messaging.getToken().then((currentToken) => {
-                    if (currentToken) {
-                        // トークン取得成功
-                        console.log("currentToken:");
-                        console.log(currentToken);
-                        // pタグを作って、そこにトークンを表示する
-                        const p = document.createElement("p");
-                        p.textContent = currentToken;
-                        document.body.appendChild(p);
-                    } else {
-                        // トークン取得失敗
-                        console.log("No Instance ID token available. Request permission to generate one.");
-                    }
-                });
-            } else {
-                // 通知を拒否した場合
-                console.log("Unable to get permission to notify.");
-            }
-        });
+        function setNoti() {
+            Notification.requestPermission().then((permission) => {
+                if (permission === "granted") {
+                    // 通知を許可した場合
+                    console.log("Notification permission granted.");
+
+                    messaging.getToken().then((currentToken) => {
+                        if (currentToken) {
+                            // トークン取得成功
+                            console.log("currentToken:");
+                            console.log(currentToken);
+                            // pタグを作って、そこにトークンを表示する
+                            const p = document.createElement("p");
+                            p.textContent = currentToken;
+                            document.body.appendChild(p);
+                        } else {
+                            // トークン取得失敗
+                            console.log("No Instance ID token available. Request permission to generate one.");
+                        }
+                    });
+                } else {
+                    // 通知を拒否した場合
+                    console.log("Unable to get permission to notify.");
+                }
+            });
+        }
     </script>
 </html>
