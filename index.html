@@ -69,13 +69,18 @@
         console.log(messaging);
 
         function setNoti() {
+            print("start");
             Notification.requestPermission().then((permission) => {
+                print("requestPermission");
                 if (permission === "granted") {
                     // 通知を許可した場合
                     console.log("Notification permission granted.");
+                    print("permission granted");
 
                     messaging.getToken().then((currentToken) => {
+                        print("getToken");
                         if (currentToken) {
+                            print("currentToken");
                             // トークン取得成功
                             console.log("currentToken:");
                             console.log(currentToken);
@@ -95,6 +100,7 @@
                         } else {
                             // トークン取得失敗
                             console.log("No Instance ID token available. Request permission to generate one.");
+                            print("No Instance ID token available. Request permission to generate one.");
                         }
                     });
                 } else {
@@ -102,6 +108,13 @@
                     console.log("Unable to get permission to notify.");
                 }
             });
+        }
+
+        function print(text) {
+            // pタグを作って、そこにトークンを表示する
+            const p = document.createElement("p");
+            p.textContent = "start";
+            document.body.appendChild(p);
         }
     </script>
 </html>
